@@ -1,0 +1,1 @@
+body{margin:0;padding:0}body .checkerboard{position:relative;left:50%;margin-top:70px;margin-left:-400px}body .checkerboard img{position:absolute;top:0;left:0;max-width:800px;width:100%;height:auto;z-index:4}body .chess_piece img{max-width:50px;width:100%;height:auto;display:none}body .button-group{position:absolute;margin-top:20px;left:50%}

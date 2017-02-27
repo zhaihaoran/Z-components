@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>五子棋--canvas</title>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<th>Mouth</th>
+			<th>Day</th>
+		</tr>
+	</table>
+	<script src="../aaa/js/jquery.js"></script>
+	<script>
+		var search = window.location.search.match(/[^?]+/)[0]
+		//match 返回匹配的目标数组
+		//[^?]  匹配除了？的所有字符
+		console.log(search)
+
+		function unParam (ParamStr) {
+			var obj = {};
+			var KeyValue = ParamStr.split('&').forEach(function(i){
+				var j = i.split('=');
+				obj[j[0]] = j[1];
+			})
+			return obj
+		}
+
+		var searchObj = unParam(search);
+
+		var obj = {};
+		var a = Symbol('a');
+		var b = Symbol('b');
+
+		obj[a] = 'Hello';
+		obj[b] = 'World';
+
+		var objectSymbols = Object.getOwnPropertySymbols(obj);
+		console.log(objectSymbols)
+
+
+
+		var objbower = {
+			dog:'lucy',
+			cat:'Tom',
+			mouse:'lll'
+		}
+
+		var objbowerArray = Object.getOwnPropertyNames(objbower);
+		console.log(objbowerArray);
+
+
+		function bowerfox (x=10,y=898) {
+			return x+y;
+		}
+		var boxs = bowerfox();//908
+		var lll = bowerfox(1234);//2132
+
+		var s = Symbol();
+		console.log(typeof s)//symbol
+
+		class Pointe {
+			constructor (x,y) {
+				this.x = x;
+				this.y = y;
+			}
+
+			toString () {
+				return '(' + this.x + ',' + this.y + ')';
+			}
+		}
+
+		var point = new Pointe(2,3);
+		console.log(point.toString())//(2,3)
+
+		
+	</script>
+</body>
+</html>
