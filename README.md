@@ -21,9 +21,9 @@
 
 # 工作经历
 
-## 爱棋道文化传播有限公司 www.iqidao.com（ 2016年2月 ~ 2017年2月 ）
+## 爱棋道文化传播有限公司[https://www.iqidao.com](2016年2月 ~ 2017年2月)
 
-### 运营落地页设计以及实现 
+### 运营落地页设计以及实现 -- 快速涨棋，突破瓶颈[https://www.iqidao.com/html/baidu/index.html]
 
  - 技术方面主要基于Bootstrap + Less实现静态页面。所有landingpage均为响应式，兼容IE9+ ，代码命名符合规范。 
  - 完全满足UI设计稿的设计细节，部分活动页由于时间紧迫，自行设计绘制草稿并按时上线，同事领导对于成品非常满意。
@@ -33,10 +33,8 @@
 ### 前台教师模块 
 
  - 用Lua脚本实现前台的动态教师列表页及内容详情页及route（Lua主要使用其template模板，编写了相关的路由，但本身并没有对Lua语言十分了解）
-我在此项目负责了哪些工作，分别在哪些地方做得出色/和别人不一样/成长快，这个项目中，我最困难的问题是什么，我采取了什么措施，最后结果如何。这个项目中，我最自豪的技术细节是什么，为什么，实施前和实施后的数据对比如何，同事和领导对此的反应如何。
 
-
-### 爱棋道2.0运营后台前端页面实现 -- admin/common.js
+### 爱棋道2.0运营后台前端页面实现(未上线) -- admin/common.js
 
  - 主要承担后台所有的前端页面实现，具体工作包括框架选型（AdminLte + table插件）、后端路由以及接口对接、template页面实现。
  - 目前对后台需要的主流的插件都有丰富的使用和配置经验，具体包括富文本编辑（froalaEditor），table（dataTables）,日期选择（datetimepicker）,异步select（select2）,图表绘制（chart）等等。
@@ -47,10 +45,11 @@
 
 ---
 
-# 其他兴趣作品
+# 其他兴趣作品 
 
- - 编程实现许多jQuery插件,在lib目录中可以查看
- - 俄罗斯方块与五子棋小游戏的简单实现
+ - 自制封装许多jQuery组件 -- lib目录下
+ - 俄罗斯方块与五子棋小游戏的js实现 -- games目录下
+ - 手势解锁
 
 ---
 
@@ -66,19 +65,18 @@
 ## 熟练掌握及使用的技能
 
  - Web前端：HTML5/CSS3/JavaScript(ES5)/Ajax/Json
- - 前端框架：Bootstrap/jQuery/Materializes
+ - 前端框架：Bootstrap/jQuery/Materializes/Mojs/Rapheal
  - Web后端：Go
- - 前端工具：Bower/Gulp/LeSS/RequireJs
+ - 前端工具：Bower/Gulp/Less/RequireJs
  - 版本管理、文档和自动化部署工具：Git
 
 ## demo级别的技能
 
- - Web前端：ES6/xml/http协议
- - 前端框架：React/React Native等MVC框架
+ - Web前端：ES6/xml/http协议/canvas/Webgl
+ - 前端框架：Three/React等MVC框架/React Native
  - Web后端：NodeJS
  - 单元测试：mocha
- - 数据库相关：MySQL/SQL
- - 单元测试：mocha
+ - 数据库相关：MySQL(navicat)/SQL
  - 开放平台：微信小程序开发
 
 ---
