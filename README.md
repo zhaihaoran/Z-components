@@ -12,9 +12,7 @@
  - 翟浩然/男/1992 
  - 本科/中国农业大学车辆工程系 
  - 工作年限：1.5年
- - 微博：[@JobDeer](http://weibo.com/jobdeer) （``` 如果没有技术相关内容，也可以不放 ```）
  - Github：http://github.com/zhaihaoran
-
  - 期望职位：Javascript中级前端工程师,Web前端中级工程师
  - 期望薪资：税前月薪14k~18k，特别喜欢的公司可例外
  - 期望城市：北京，杭州
