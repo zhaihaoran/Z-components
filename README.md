@@ -21,11 +21,11 @@
 
 # 工作经历
 
-## 爱棋道文化传播有限公司[https://www.iqidao.com](2016年2月 ~ 2017年2月)
+## [爱棋道文化传播有限公司](https://www.iqidao.com) - 2016年2月~~至今
 
-### 运营落地页设计以及实现 -- 快速涨棋，突破瓶颈[https://www.iqidao.com/html/baidu/index.html]
+### 运营落地页、活动页设计以及实现 -- [快速涨棋，突破瓶颈](https://www.iqidao.com/html/baidu/index.html)
 
- - 技术方面主要基于Bootstrap + Less实现静态页面。所有landingpage均为响应式，兼容IE9+ ，代码命名符合规范。 
+ - 技术方面主要基于Bootstrap + Less实现静态页面。所有的landingpage均为响应式，兼容IE9+ ，代码命名符合规范。 
  - 完全满足UI设计稿的设计细节，部分活动页由于时间紧迫，自行设计绘制草稿并按时上线，同事领导对于成品非常满意。
  - JS方面封装了SignModal组件，具体逻辑包含了部分register模块和login模块，实现多页面复用。
  - JS代码风格为基于prototype原型链的面向对象写法。命名语义化，格式清晰，完全通过JSLint校验。
@@ -34,7 +34,7 @@
 
  - 用Lua脚本实现前台的动态教师列表页及内容详情页及route（Lua主要使用其template模板，编写了相关的路由，但本身并没有对Lua语言十分了解）
 
-### 爱棋道2.0运营后台前端页面实现(未上线) -- admin/common.js
+### 爱棋道2.0运营后台前端页面实现(未上线) -- `admin/common.js`
 
  - 主要承担后台所有的前端页面实现，具体工作包括框架选型（AdminLte + table插件）、后端路由以及接口对接、template页面实现。
  - 目前对后台需要的主流的插件都有丰富的使用和配置经验，具体包括富文本编辑（froalaEditor），table（dataTables）,日期选择（datetimepicker）,异步select（select2）,图表绘制（chart）等等。
@@ -47,8 +47,8 @@
 
 # 其他兴趣作品 
 
- - 自制封装许多jQuery组件 -- lib目录下
- - 俄罗斯方块与五子棋小游戏的js实现 -- games目录下
+ - 自制封装许多jQuery组件 -- `lib/`
+ - 俄罗斯方块与五子棋小游戏的js实现 --`games/`
  - 手势解锁
 
 ---
