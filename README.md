@@ -27,29 +27,33 @@
 
  - 技术方面主要基于Bootstrap + Less实现静态页面。所有的landingpage均为响应式，兼容IE9+ ，代码命名符合规范。 
  - 完全满足UI设计稿的设计细节，部分活动页由于时间紧迫，自行设计绘制草稿并按时上线，同事领导对于成品非常满意。
- - JS方面封装了SignModal组件，具体逻辑包含了部分register模块和login模块，实现多页面复用。
+ - JS方面自制封装SignModal组件，逻辑包含了部分register、login、validate逻辑，实现多页面复用。
  - JS代码风格为基于prototype原型链的面向对象写法。命名语义化，格式清晰，完全通过JSLint校验。
 
 ### 前台教师模块 
 
- - 用Lua脚本实现前台的动态教师列表页及内容详情页及route（Lua主要使用其template模板，编写了相关的路由，但本身并没有对Lua语言十分了解）
+ - Lua脚本实现前台的动态教师列表页及内容详情页及route
+ （Lua主要使用其template模板，编写了相关的路由，但本身并没有对Lua语言十分了解）
 
-### 爱棋道2.0运营后台前端页面实现(即将上线)
+### 爱棋道2.0运营后台前端页面实现
 
  - 主要承担后台所有的前端页面实现，具体工作包括框架选型（AdminLte + table插件）、后端路由以及接口对接、template页面实现。
- - 目前对后台需要的主流的插件都有丰富的使用和配置经验，具体包括富文本编辑（froalaEditor），table（dataTables）,日期选择（datetimepicker）,异步select（select2）,图表绘制（chart）等等。
- - 后台前端方面的技术栈为：RequireJs + AdminLte + Less + gulp + Go。其中gulp方面负责JS、CSS的压缩混淆打包的task编写；
- - 自己封装了常用的Js工具类，自制了一些jQuery插件和一些插件的二次封装方便使用，具体code见`admin/common.js`
- - 在后台实现的过程中，对get、post请求提交，ajax，json，数据的增删改查有清晰的理解和丰富的实践经验。
- - 由于需要接口对接，编写route，后端语言方面，对Go和nodejs较为熟悉，Go语言有实际的项目经验。整体对后端逻辑较为熟悉，可以正常与后端人员对接完成配合。
+ - 后台需要的主流插件都有丰富的使用和配置经验，具体包括富文本编辑（froalaEditor）,table（dataTables）,日期选择（datetimepicker）,异步select（select2）,图表绘制（chart）等等。
+ - 后台前端方面的技术栈为：RequireJs + AdminLte + Less + gulp + Go。
+   其中gulp方面负责JS、CSS的压缩混淆打包的task编写；
+ - 封装常用的Js工具类自用`admin/`，自制了一些jQuery插件和一些插件的二次封装方便使用`lib/`，
+ - 后台实现的过程中，对get、post请求提交，ajax，json，数据的增删改查有清晰的理解和丰富的实践经验。
+ - 由于需要接口对接，编写route，后端语言方面对Go和nodejs较为熟悉，
+   Go语言有实际的项目经验。整体对后端逻辑较为熟悉，可以正常与后端人员对接完成配合。
 
 ---
 
 # 其他兴趣作品 
 
  - 自制封装许多jQuery组件 -- `lib/`
- - 俄罗斯方块与五子棋小游戏的js实现 --`games/`
- - 手势解锁
+ - 俄罗斯方块与五子棋小游戏的js实现 --`games/teris`
+ - 移动端手势解锁js实现 -- `lib/`
+ - 比赛对阵图自动自动分组 -- `games/group_trace`
 
 ---
 
@@ -62,7 +66,7 @@
 
 # 技能清单总结
 
-## 熟练掌握及使用的技能
+### 熟练掌握及使用的技能
 
  - Web前端：HTML5/CSS3/JavaScript(ES5)/Ajax/Json
  - 前端框架：Bootstrap/jQuery/Materializes/Mojs/Rapheal
@@ -70,10 +74,10 @@
  - 前端工具：Bower/Gulp/Less/RequireJs
  - 版本管理、文档和自动化部署工具：Git
 
-## demo级别的技能
+### demo级别技能
 
- - Web前端：ES6/xml/http协议/canvas/Webgl
- - 前端框架：Three/React等MVC框架/React Native
+ - Web前端：ES6/http协议/canvas
+ - 前端框架：React等MVC框架/React Native
  - Web后端：NodeJS
  - 单元测试：mocha
  - 数据库相关：MySQL(navicat)/SQL

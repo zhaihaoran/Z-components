@@ -1,0 +1,80 @@
+.matched-dom {
+	
+	font-family: "微软雅黑";
+	text-align: center;
+	width: 1500px;
+	overflow-x: scroll;
+	overflow-y: visible;
+
+	.match-heading {
+		font-size: 42px;
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+		margin: 20px 0;
+
+	}
+
+	#rounds {
+		height: 30px;
+		line-height: 30px;
+		margin: 20px 0;
+		overflow: hidden;
+		.round-cube {
+			width: 200px;
+			height: 30px;
+			float: left;
+			margin: 0 15px;
+		}
+	}
+
+	#members {
+		margin-top: 20px;
+		overflow: hidden;
+		.col-list{
+			width: 200px;
+			float: left;
+			margin: 0 15px;
+			.cube {
+				width: 200px;
+				margin-bottom: 50px;
+				position: relative;
+				svg{
+					position: absolute;
+				}
+				.c-text{
+					height: 36px;
+					line-height: 32px;
+					border:2px solid black;
+					width: 160px;
+					margin: 0 auto;
+				}
+			}
+
+			.j {
+				// (36*2+50+4*2)/2-(36+2*2)/2 = 45 
+				margin-top: 45px;
+				margin-bottom: 136px;
+			}
+
+			.k {
+				margin-top: 130px;
+				margin-bottom: 308px;
+			}
+
+			.l {
+				margin-top: 298px;
+				margin-bottom: 652px;
+			}
+			.o {
+				margin-top: 648px;
+				margin-bottom: 1340px;
+			}
+			.p {
+				margin-top: 1334px;
+				margin-bottom: 450px;
+			}
+		}
+	}
+
+}
