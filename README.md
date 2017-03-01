@@ -21,9 +21,9 @@
 
 # 工作经历
 
-## [爱棋道文化传播有限公司](https://www.iqidao.com) - 2016年2月~~至今
+## [爱棋道文化传播有限公司](http://www.iqidao.com) - 2016年2月~~至今
 
-### 运营落地页、活动页设计以及实现 -- [快速涨棋，突破瓶颈](https://www.iqidao.com/html/baidu/index.html)
+### 运营落地页、活动页设计以及实现 -- [快速涨棋，突破瓶颈](http://www.iqidao.com/html/baidu/index.html)
 
  - 技术方面主要基于Bootstrap + Less实现静态页面。所有的landingpage均为响应式，兼容IE9+ ，代码命名符合规范。 
  - 完全满足UI设计稿的设计细节，部分活动页由于时间紧迫，自行设计绘制草稿并按时上线，同事领导对于成品非常满意。
@@ -34,12 +34,12 @@
 
  - 用Lua脚本实现前台的动态教师列表页及内容详情页及route（Lua主要使用其template模板，编写了相关的路由，但本身并没有对Lua语言十分了解）
 
-### 爱棋道2.0运营后台前端页面实现(未上线) -- `admin/common.js`
+### 爱棋道2.0运营后台前端页面实现(即将上线)
 
  - 主要承担后台所有的前端页面实现，具体工作包括框架选型（AdminLte + table插件）、后端路由以及接口对接、template页面实现。
  - 目前对后台需要的主流的插件都有丰富的使用和配置经验，具体包括富文本编辑（froalaEditor），table（dataTables）,日期选择（datetimepicker）,异步select（select2）,图表绘制（chart）等等。
  - 后台前端方面的技术栈为：RequireJs + AdminLte + Less + gulp + Go。其中gulp方面负责JS、CSS的压缩混淆打包的task编写；
- - 自己封装了常用的Js工具类，自制了一些jQuery插件和一些插件的二次封装方便使用。
+ - 自己封装了常用的Js工具类，自制了一些jQuery插件和一些插件的二次封装方便使用，具体code见`admin/common.js`
  - 在后台实现的过程中，对get、post请求提交，ajax，json，数据的增删改查有清晰的理解和丰富的实践经验。
  - 由于需要接口对接，编写route，后端语言方面，对Go和nodejs较为熟悉，Go语言有实际的项目经验。整体对后端逻辑较为熟悉，可以正常与后端人员对接完成配合。
 
