@@ -50,7 +50,7 @@
 
 # 其他兴趣作品 
 
- - 自制封装许多jQuery组件 -- `lib/`
+ - 自制封装jQuery插件 -- `lib/`
  - 俄罗斯方块与五子棋小游戏的js实现 --`games/teris`
  - 移动端手势解锁js实现 -- `lib/`
  - 比赛对阵图自动自动分组 -- `games/group_trace`

@@ -1,0 +1,25 @@
+{
+  "name": "resume",
+  "homepage": "https://github.com/zhaihaoran/Z-components",
+  "authors": [
+    "zhaihaoran <359118915@qq.com>"
+  ],
+  "description": "it' for resume demo required",
+  "main": "",
+  "keywords": [
+    "resume",
+    "Javascript",
+    "materialize"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "materialize": "^0.98.0"
+  }
+}

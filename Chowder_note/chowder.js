@@ -69,14 +69,14 @@ function bubbleSort(array){
 }
 
 /* -- for循环内嵌函数最佳实现 -- */
-for(var i =1;i<=5;i++){
+for(var i =1;i<=5;++i){
 	(function(j){
 		setTimeout(function(){
 			console.log(j);
 		}, j*1000);
 	})(i);
 }
-for (let i =1;i<=5;i++){
+for (let i =1;i<=5;++i){
 	setTimeout(function(){
 		console.log(i);
 	}, i*1000)
