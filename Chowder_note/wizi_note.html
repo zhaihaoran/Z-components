@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>wizi</title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <script>
+        // MV模式
+
+        // 一般把管理用户界面的层次称为view ，应用程序的数据称为model，model提供数据操作的接口，供
+        // view层操作。
+
+        // 有了view和model 如何保证同步更新呢 
+        // 后面在MV模式下分离出了controller层，它的职责是负责model和view之间的协作（路由，输入预处理）
+
+        // Controller和View都依赖Model层，Controller和View可以互相依赖。
+        // 在一些网上的资料Controller和View之间的依赖关系可能不一样，有些是单向依赖，有些是双向依赖，这个其实关系不大，
+        // 后面会看到它们的依赖关系都是为了把处理用户行为触发的事件处理权交给Controller。
+
+        // pub/sub 发布/订阅
+
+        // 二叉树：一个node节点由data，left，right构成，
+        // 二叉树有很多种，一般来说二叉搜索树比较常用，特性是相对本节点较小的值放在左边，较大的值放在右边,这种方式查询效率会更高
+
+        function Node(data, left, right) {
+            this.data = data;
+            this.left = left;
+            this.right = right;
+        }
+
+        function BST() {
+            this.root = null;
+            this.insert = insert;
+            this.remove = remove;
+            this.find = find;
+            // 先序
+            this.preOrder = preOrder;
+            // 中序
+            this.inOrder = inOrder;
+            // 后序
+            this.postOrder = postOrder;
+            // 广度
+            this.wiOrder = wiOrder;
+        }
+
+        function insert(data) {
+            var node = new Node(data, null, null);
+            if (this.root === null) {
+                this.root = node;
+            } else {
+                var current = this.root;
+                while (true) {
+                    // 小于原来值，放到左边
+                    if (current.data > data) {
+                        if (current.left === null) {
+                            current.left = node;
+                            break;
+                        }
+                        current = current.left;
+                    } else {
+                        if (current.right === null) {
+                            current.right = node;
+                            break;
+                        }
+                        current = current.right;
+                    }
+                }
+            }
+        }
+
+        var bst = new BST();
+
+        bst.insert(5);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(2);
+        bst.insert(4);
+        bst.insert(6);
+        bst.insert(9);
+        //       5
+        //     3   7
+        //   2  4 6  9
+
+        console.log(bst);
+        // 二叉树优点是查找最大数和最小数快，分别位于最右端和最左端,查询指定值如下，从树头开始查到尾？
+        function find(data) {
+            var current = this.root;
+            while (true) {
+                if (data === current.data) {
+                    return current;
+                }
+                current = data < current.data ? current.left : current.right;
+                if (current === null) {
+                    return null;
+                }
+            }
+        }
+        // 二叉树删除分两种情况，一种是删除的节点后的所有子节点都不要了。另一种是仍需要，第一种递归处理，第二种的话，可以记录下删除的子节点信息，然后再重新插入到树中
+
+        // 以下是第一种情况的示例
+        function remove(data) {
+            this.root = removeNode(this.root, data);
+        }
+
+        function removeNode(node, data) {
+            if (node === null) {
+                return null;
+            }
+            if (data === node.data) {
+                if (node.left === null && node.right === null) {
+                    return null;
+                }
+                if (node.left === null) {
+                    return node.right;
+                }
+                if (node.right === null) {
+                    return node.left;
+                }
+            } else if (data < node.data) {
+                node.left = removeNode(node.left, data);
+                return node;
+            } else {
+                node.right = removeNode(node.right, data);
+                return node;
+            }
+        }
+        // 深度为h的🌲，最多有2^h-1个节点，如果都包含则是满树，如果只是最底层的左侧是满的，那么是完全二叉树
+        // 平衡二叉树：父节点的左子树和右子树的深度相差不能大于1
+
+
+        // 二叉树遍历分为两种情况：1.深度遍历，2.广度遍历，深度包含了前序，中序，后序遍历三种
+        // 前序遍历：访问根–>遍历左子树–>遍历右子树;
+        // 中序遍历：遍历左子树–>访问根–>遍历右子树;
+        // 后序遍历：遍历左子树–>遍历右子树–>访问根;
+        // 广度遍历：按照层次一层层遍历;
+        //         5
+        //       3   7
+        //     2   4 
+        function preOrder(node, arr) {
+            var current = node || this.root,
+                arr = arr || [];
+            if (!(current === null)) {
+                arr.push(current.data);
+                if (current.left !== null) {
+                    preOrder(current.left, arr);
+                }
+                if (current.right !== null) {
+                    preOrder(current.right, arr);
+                }
+            }
+            return arr;
+        }
+
+        function inOrder(node, arr) {
+            var current = node || this.root,
+                arr = arr || [];
+            if (!(current === null)) {
+                if (current.left !== null) {
+                    inOrder(current.left, arr);
+                }
+                arr.push(current.data);
+                if (current.right !== null) {
+                    inOrder(current.right, arr);
+                }
+            }
+            return arr;
+        }
+
+        function postOrder(node, arr) {
+            var current = node || this.root,
+                arr = arr || [];
+            if (!(current === null)) {
+                if (current.left !== null) {
+                    postOrder(current.left, arr);
+                }
+                if (current.right !== null) {
+                    postOrder(current.right, arr);
+                }
+                arr.push(current.data);
+            }
+            return arr;
+        }
+
+        function wiOrder() {
+            
+        }
+
+        var array1 = bst.preOrder();
+        var array2 = bst.inOrder();
+        var array3 = bst.postOrder();
+        var array4 = bst.wiOrder();
+
+        console.log(array1);
+        console.log(array2);
+        console.log(array3);
+    </script>
+</body>
+
+</html>
