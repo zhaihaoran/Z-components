@@ -1,557 +1,332 @@
-/**
- * iqidao Admin Common
- * ------------------
- */
 define([
-	"jquery",
-	'dataTables',
-	'bootstrap.switch',
-	'select2',
-	"adminLte",
-	'editor-zh',
-	'icheck',
-	'waves',
-	'velocity'
-], function ($, AdminLTE) {
-
-	"use strict";
-
-	var Common = function () {
-		var me = this;
-
-		me.fakeLoader();
-
-		me.init();
-		me.adminModal();
-	};
-
-	Common.prototype = {
-
-		skins: [
-			"skin-blue",
-			"skin-black",
-			"skin-red",
-			"skin-yellow",
-			"skin-purple",
-			"skin-green",
-			"skin-blue-light",
-			"skin-black-light",
-			"skin-red-light",
-			"skin-yellow-light",
-			"skin-purple-light",
-			"skin-green-light"
-		],
-
-		dataTableDefault: {
-			"scrollX": true,
-			"info": false,
-			"paging": false,
-			"searching": false,
-			"oLanguage": {
-				"sZeroRecords": "对不起，查询不到任何相关数据",
-				"sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
-				"sInfoEmtpy": "找不到相关数据",
-				"sInfoFiltered": "数据表中共为 _MAX_ 条记录)",
-				"sProcessing": "正在加载中...",
-				"sSearch": "搜索",
-			}
-		},
-
-		init: function () {
-			var me = this;
-
-			var tmp = me.get('skin');
-			if (tmp && $.inArray(tmp, me.skins)) {
-				me.change_skin(tmp);
-			}
-
-			//    //Add the change skin listener
-			// $("[data-skin]").on('click', function (e) {
-			// 	if ($(this).hasClass('knob')){
-			// 		return;
-			// 	}
-			// 	e.preventDefault();
-			// 	me.change_skin($(this).data('skin'));
-			// });
-
-			// //Add the layout manager
-			// $("[data-layout]").on('click', function () {
-			// 	me.change_layout($(this).data('layout'));
-			// });
-
-			$("[data-controlsidebar]").on('click', function () {
-				me.change_layout($(this).data('controlsidebar'));
-				var slide = !AdminLTE.options.controlSidebarOptions.slide;
-				AdminLTE.options.controlSidebarOptions.slide = slide;
-				if (!slide) {
-					$('.control-sidebar').removeClass('control-sidebar-open');
-				}
-			});
-
-			$("[data-sidebarskin='toggle']").on('click', function () {
-				var sidebar = $(".control-sidebar");
-				if (sidebar.hasClass("control-sidebar-dark")) {
-					sidebar.removeClass("control-sidebar-dark");
-					sidebar.addClass("control-sidebar-light");
-				} else {
-					sidebar.removeClass("control-sidebar-light");
-					sidebar.addClass("control-sidebar-dark");
-				}
-			});
-
-			$("[data-enable='expandOnHover']").on('click', function () {
-				$(this).attr('disabled', true);
-				AdminLTE.pushMenu.expandOnHover();
-				if (!$('body').hasClass('sidebar-collapse')) {
-					$("[data-layout='sidebar-collapse']").click();
-				}
-			});
-
-			me.resetOptions();
-
-			// aside
-			var $sidebarLi = $('.sidebar-menu .treeview');
-			var $treeUrl = $('.treeview-menu li', $sidebarLi);
-
-			$treeUrl.each(function () {
-				if ($(this).data('name') === "active") {
-					$(this).parents('.treeview').addClass('active');
-				}
-			});
-
-			me.dataTableConfig();
-			me.dateTimePickerConfig();
-			me.recordScrollBarPosition();
-
-			// tooltips 
-			$('.tooltips').tooltip();
-			// popovers
-			$('.popovers').popover();
-			// icheck
-			$('.icheck').iCheck({
-				checkboxClass: 'icheckbox_flat-green',
-				radioClass: 'iradio_flat-green'
-			});
-
-			// load scrolllbar position
-			var value = sessionStorage.getItem('pagePosition');
-			$(window).scrollTop(value);
-			// 
-			me.slidenav();
-
-		},
-
-		// 节流函数 为了优化性能，确保times时间当函数多次触发时，函数只会并且必须执行一次
-
-		//fun 要执行的函数
-		//delay 延迟
-		//time  在time时间内必须执行一次
-		throttle: function (fun, delay, time) {
-			var timeout, startTime = new Date();
-			// 最终产生一个新函数，加了延迟和time
-			return function () {
-				var context = this,
-					args = arguments,
-					curTime = new Date();
-				clearTimeout(timeout);
-				// 如果达到了规定的触发时间间隔，触发 handler
-				if (curTime - startTime >= time) {
-					fun.apply(context, args);
-					startTime = curTime;
-					// 没达到触发间隔，重新设定定时器
-				} else {
-					timeout = setTimeout(fun, delay);
-				}
-			};
-		},
-
-		recordScrollBarPosition: function () {
-			var me = this;
-			// 记录滚动条位置 = > 触发置顶 懒加载
-			$(window).on('scroll', me.throttle(function () {
-				var location = $(this).scrollTop();
-				var $rocket = $('.actGotop');
-
-				sessionStorage.setItem('pagePosition', location);
-
-				// if(location >= 100) {
-				// 	$rocket.fadeIn(300);
-				// } else {
-				// 	$rocket.fadeOut(300);
-				// }
-
-				// $rocket.on('click',function(){
-				// 	$('html').animate({
-				// 		scrollTop:'0px'
-				// 	},800);
-				// })
-			}, 500, 1500));
-		},
-
-		dateTimePickerConfig: function () {
-			var me = this;
-			if ($.fn.datetimepicker) {
-				$.fn.datetimepicker.dates['zh'] = {
-					days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-					daysShort: ["日", "一", "二", "三", "四", "五", "六", "日"],
-					daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"],
-					months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-					monthsShort: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"],
-					meridiem: ["上午", "下午"],
-					today: "今天"
-				};
-				$.fn.datetimepicker.defaults = {
-					'language': 'zh'
-				};
-			}
-		},
-
-		dataTableConfig: function () {
-			var me = this;
-
-			// 设置插件通用配置
-			$.extend(true, $.fn.dataTable.defaults, me.dataTableDefault);
-			// 加true 为深度拷贝
-		},
-
-		resetOptions: function () {
-			var me = this;
-
-			if ($('body').hasClass('fixed')) {
-				$("[data-layout='fixed']").attr('checked', 'checked');
-			}
-			if ($('body').hasClass('layout-boxed')) {
-				$("[data-layout='layout-boxed']").attr('checked', 'checked');
-			}
-			if ($('body').hasClass('sidebar-collapse')) {
-				$("[data-layout='sidebar-collapse']").attr('checked', 'checked');
-			}
-		},
-
-		change_layout: function (cls) {
-			$("body").toggleClass(cls);
-			AdminLTE.layout.fixSidebar();
-			//Fix the problem with right sidebar and layout boxed
-			if (cls === "layout-boxed") {
-				AdminLTE.controlSidebar._fix($(".control-sidebar-bg"));
-			}
-			if ($('body').hasClass('fixed') && cls === 'fixed') {
-				AdminLTE.pushMenu.expandOnHover();
-				AdminLTE.layout.activate();
-			}
-			AdminLTE.controlSidebar._fix($(".control-sidebar-bg"));
-			AdminLTE.controlSidebar._fix($(".control-sidebar"));
-		},
-
-		store: function (name, val) {
-			if (typeof (Storage) !== "undefined") {
-				localStorage.setItem(name, val);
-			} else {
-				window.alert('Please use a modern browser to properly view this template!');
-			}
-		},
-
-		get: function (name) {
-			if (typeof (Storage) !== "undefined") {
-				return localStorage.getItem(name);
-			} else {
-				window.alert('Please use a modern browser to properly view this template!');
-			}
-		},
-
-		change_skin: function (cls) {
-			var me = this;
-
-			$.each(me.skins, function (i) {
-				$("body").removeClass(me.skins[i]);
-			});
-
-			$("body").addClass(cls);
-			me.store('skin', cls);
-			return false;
-		},
-
-		modals: {
-			// 自己写触发modal
-			init: function (options, $init) {
-				var _stack = 0,
-					_lastID = 0,
-					_generateID = function () {
-						_lastID++;
-						return 'materialize-modal-overlay-' + _lastID;
-					};
-
-				var defaults = {
-					opacity: 0.5,
-					in_duration: 350,
-					out_duration: 250,
-					ready: undefined,
-					complete: undefined,
-					dismissible: true,
-					starting_top: '4%',
-					ending_top: '10%'
-				};
-
-				// Override defaults 
-				options = $.extend(defaults, options);
-
-				return $init.each(function () {
-					var modal_id = $(this).data('target');
-					var $modal = $(modal_id);
-
-					var closeModal = function () {
-						var overlayId = $modal.data('overlay-id');
-						var $overlay = $('#' + overlayId);
-						$modal.removeClass('open');
-						// Enable scrolling
-						$('body').css({
-							overflow: '',
-							width: ''
-						});
-
-						$modal.find('.modal-close').off('click.close');
-						$(document).off('keyup.modal' + overlayId);
-
-						// 遮罩动画
-						$overlay.velocity({
-							opacity: 0
-						}, {
-							duration: options.out_duration,
-							queue: false,
-							ease: "easeOutQuart"
-						});
-
-						// Define Bottom Sheet animation
-						var exitVelocityOptions = {
-							duration: options.out_duration,
-							queue: false,
-							ease: "easeOutCubic",
-							// Handle modal ready callback
-							complete: function () {
-								$(this).css({
-									display: "none"
-								});
-
-								// Call complete callback
-								if (typeof (options.complete) === "function") {
-									options.complete.call(this, $modal);
-								}
-								$overlay.remove();
-								_stack--;
-							}
-						};
-						if ($modal.hasClass('bottom-sheet')) {
-							$modal.velocity({
-								bottom: "-100%",
-								opacity: 0
-							}, exitVelocityOptions);
-						} else {
-							$modal.velocity({
-									top: options.starting_top,
-									opacity: 0,
-									scaleX: 0.7
-								},
-								exitVelocityOptions
-							);
-						}
-					};
-
-
-					var openModal = function ($trigger) {
-						var $body = $('body');
-						var oldWidth = $body.innerWidth();
-						$body.css('overflow', 'hidden');
-						$body.width(oldWidth);
-
-						//如果modal的dom上已经有open的class的话 
-						if ($modal.hasClass('open')) {
-							return;
-						}
-						var overlayId = _generateID();
-						var $overlay = $('<div class="modal-overlay"></div>');
-						lStack = (++_stack);
-
-						// store a reference of the overlay
-						$overlay.attr('id', overlayId).css('z-index', 1000 + lStack * 2);
-						$modal.data('overlay-id', overlayId).css('z-index', 1000 + lStack * 2 + 1);
-						$modal.addClass('open');
-						$("body").append($overlay);
-
-						if (options.dismissible) {
-							// 点击遮罩
-							$overlay.click(function () {
-								closeModal();
-							});
-							// Esc
-							$(document).on('keyup.modal' + overlayId, function (e) {
-								if (e.keyCode === 27) { // ESC key
-									closeModal();
-								}
-							});
-						}
-
-						$modal.find(".modal-close").on('click.close', function (e) {
-							closeModal();
-						});
-
-						$overlay.css({
-							display: "block",
-							opacity: 0
-						});
-
-						$modal.css({
-							display: "block",
-							opacity: 0
-						});
-
-						$overlay.velocity({
-							opacity: options.opacity
-						}, {
-							duration: options.in_duration,
-							queue: false,
-							ease: "easeOutCubic"
-						});
-						$modal.data('associated-overlay', $overlay[0]);
-
-						// Define Bottom Sheet animation
-						var enterVelocityOptions = {
-							duration: options.in_duration,
-							queue: false,
-							ease: "easeOutCubic",
-							// Handle modal ready callback
-							complete: function () {
-								if (typeof (options.ready) === "function") {
-									options.ready.call(this, $modal, $trigger);
-								}
-							}
-						};
-						if ($modal.hasClass('bottom-sheet')) {
-							$modal.velocity({
-								bottom: "0",
-								opacity: 1
-							}, enterVelocityOptions);
-						} else {
-							$.Velocity.hook($modal, "scaleX", 0.7);
-							$modal.css({
-								top: options.starting_top
-							});
-							$modal.velocity({
-								top: options.ending_top,
-								opacity: 1,
-								scaleX: '1'
-							}, enterVelocityOptions);
-						}
-					};
-
-					// 页面初始化时先解绑
-					$(document).off('click.modalTrigger', 'a[href="#' + modal_id + '"], [data-target="' + modal_id + '"]');
-					$(this).off('openModal');
-					$(this).off('closeModal');
-
-					// 再重新绑定
-					$(document).on('click.modalTrigger', 'a[href="#' + modal_id + '"], [data-target="' + modal_id + '"]', function (e) {
-						options.starting_top = ($(this).offset().top - $(window).scrollTop()) / 1.15;
-						openModal($(this));
-						e.preventDefault();
-					}); // done set on click
-
-					$(this).on('openModal', function () {
-						var modal_id = $(this).attr("href") || '#' + $(this).data('target');
-						openModal();
-					});
-
-					$(this).on('closeModal', function () {
-						closeModal();
-					});
-				});
-			},
-			open: function () {
-				$(this).trigger('openModal');
-			},
-			close: function () {
-				$(this).trigger('closeModal');
-			}
-		},
-
-		// 页面fakerloader
-		fakeLoader: function (options) {
-
-			var defaults = {
-				timeToHide: 2200,
-				pos: 'fixed',
-				top: '0px',
-				width: '100%',
-				height: '100%',
-				zIndex: '999', // Default zIndex 
-				bgColor: '#3498db', // Default background color
-				spinner: 'spinner4', // Default Spinner
-				imagePath: ''
-			};
-			var config = $(defaults, options || {});
-			var el = $('<div class="fl spinner4"></div>');
-
-			var $dom = $('.fakeloader').append($(el));
-			setTimeout(function () {
-				$dom.fadeOut();
-			}, 1200);
-		},
-
-		adminModal: function (options) {
-			var me = this;
-			// 选取出所有页面上的初始dom
-			var data = $(document).find('[modal="true"]');
-
-			if (data && (typeof options === 'object' || !options)) {
-				me.modals.init(options, data);
-			}
-		},
-
-		// slidenav
-		slidenav: function (options) {
-			var defaults = {
-				width: 227,
-				height: 50,
-				rebound_speed: 300 /* speed */
-			};
-
-			config = $.extend(defaults, options || {});
-
-			var $sidebar = $('.sidebar-menu');
-
-			var $line = $('.sidebar-line', $sidebar);
-			var $term = $('.treeview', $sidebar);
-
-			// 设置辅助线高度和宽度
-			$line.height(config.height).width(config.width);
-
-			$term.on('mouseenter', function () {
-				var thisY = $(this).position().top;
-				console.log($(this).position());
-				$line.stop(true, true).animate({
-					top: thisY
-				}, 200);
-				return false;
-			}).end().on('mouseleave', function () {
-
-				var $active = $('.treeview.active', $sidebar);
-				var thisY;
-
-				if ($active.length > 0) {
-					thisY = $active.position().top;
-				} else {
-					thisY = $(this).position().top;
-				}
-
-				$line.stop(true, true).animate({
-					top: thisY
-				}, 200);
-				return false;
-			});
-		}
-	};
-
-	return Common;
-	/* 可以在外部调用 */	
-	// window.Common = new Common();
-	
+    "jquery",
+    "js/admin/components/utils",
+    "js/admin/api/config",
+    "js/admin/components/modal",
+    "js/admin/components/asyncLoad",
+    'datetimepicker',
+    'select2',
+    'icheck',
+    'validator',
+    'material',
+    "adminLte",
+], function ($, tools, config, modal, Async) {
+
+    "use strict";
+
+    /**
+     * iqidao Admin Common
+     * @exports Common
+     * @param {any} options - 暂无配置
+     */
+    var Common = function (options) {
+        var me = this;
+
+        me.init();
+        // modal init
+        me.adminModal(options);
+    };
+
+    Common.prototype = {
+
+        sidebarConfig: {
+            height: 50,
+            rebound_speed: 300 /* speed */
+        },
+
+        /**
+         * 各个封装件初始化，主流程函数
+         */
+        init: function () {
+            var me = this;
+
+            // 声明dom
+            me.render();
+
+            $.material.init();
+
+            me.sidebarMenu();
+            // me.resetOptions();
+            me.recordScrollBarPosition();
+            me.$tooltip.tooltip();
+
+            me.Async = new Async('.query-form', '.admin-list', {
+                type: "form",
+            });
+
+            me.Async2 = new Async('.pagination a', '.admin-list', {
+                type: "link",
+            });
+
+            $(me.Async).on('pjax.update', me, me.pluginInit);
+            $(me.Async2).on('pjax.update', me, me.pluginInit);
+
+            // datetimepicker
+            if (me.$datetimepicker.length > 0 && $.fn.datetimepicker !== 'undefined') {
+                me.$datetimepicker.datetimepicker({
+                    format: 'YYYY-MM-DD HH:mm',
+                });
+            }
+            // select2
+            if (me.$select2.length > 0 && $.fn.datetimepicker !== 'undefined') {
+                me.$select2.select2();
+            }
+            // icheck
+            if (me.$icheck.length > 0 && $.fn.datetimepicker !== 'undefined') {
+                me.$icheck.iCheck({
+                    checkboxClass: 'icheckbox_square-red',
+                });
+            }
+            // clear
+            me.clearform();
+
+            // validator
+            $('.validator-form').validator();
+
+            me.$header = $('header.main-header');
+            me.$header.on({
+                click: function (e) {
+                    // contains 第一个元素必须为dom，从第二个元素开始向第一个元素寻找
+                    // 而且contains不能匹配到相等的元素
+                    if ($.contains($('#search', this)[0], e.target) || $(e.target).attr('id') === "search") {
+                        me.$header.addClass('search-toggle')
+                    } else {
+                        if (!$.contains($('.search-text')[0], e.target)) {
+                            me.$header.removeClass('search-toggle');
+                        }
+                    }
+                },
+                keydown: function (e) {
+                    // esc
+                    if (e.keyCode === 27 && $(this).attr('class').indexOf('search-toggle') > -1) {
+                        me.$header.removeClass('search-toggle');
+                    }
+                }
+            });
+
+            me.fileUpload();
+
+            // load scrolllbar position
+            var value = sessionStorage.getItem('pagePosition');
+            $(window).scrollTop(value);
+
+            me.navbarSearch();
+            me.renderUserGroup();
+        },
+
+        /**
+         * 表单清空按钮初始化绑定
+         */
+        clearform: function () {
+            var me = this;
+            // reset 只能还原为初始值，不好；
+            $('#clear').on('click', function () {
+                var $form = $(this).parents('form');
+                $(':input', $form)
+                    .not(':button, :submit, :reset, :hidden')
+                    .val('')
+                    .removeAttr('checked')
+                    .removeAttr('selected');
+                $('select', $form).val(null).trigger('change');
+            });
+        },
+
+        /**
+         * 阻止表单多次重复提交
+         */
+        stopSubmitRepeat: function () {
+            var me = this;
+
+            $('form').not('.query-form').on('submit', function () {
+                $(":submit", this).prop('disabled', true);
+            })
+        },
+
+        /**
+         * 渲染用户类型
+         */
+        renderUserGroup: function () {
+            var $userGroup = $('#userGroup');
+            var group = $userGroup.find('.hidden').text();
+
+            $userGroup.addClass(config.userGroups[group].class);
+            $userGroup.text(config.userGroups[group].name);
+        },
+
+        /**
+         * pjax后控件初始化
+         * @param {any} e 
+         */
+        pluginInit: function (e) {
+
+            var me = e.data;
+            var $html = e.target.$new;
+
+            $('.select2', $html).select2();
+            $('.datetimepicker', $html).datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+            });
+            me.adminModal();
+            $.material.init();
+        },
+
+        /**
+         * 渲染
+         */
+        render: function () {
+            var me = this;
+
+            me.adminroot = window.ADMIN_ROOT;
+            me.$body = $('body');
+            me.$sidebar = $('aside.main-sidebar', me.$body);
+
+            $('.sidebar', me.$sidebar).css('height', $(window).height() - 60);
+
+            me.$treemenu = $('.treeview-menu', me.$sidebar);
+            me.$searchButton = $('#search', me.$header);
+            // pluginInit
+            me.$tooltip = $('[data-toggle="tooltip"]', me.$body);
+            me.$select2 = $('.select2');
+            me.$datetimepicker = $('.datetimepicker', me.$body);
+            me.$icheck = $('.icheck');
+            
+        },
+
+        /**
+         * 文件上传校验和文件名称渲染
+         */
+        fileUpload: function () {
+            var me = this;
+
+            var $fileinput = $('input[type="file"]');
+            $fileinput.on('change', function () {
+                // 如果没有选择文件
+                if ($(this).val() === '') {
+                    return false;
+                }
+                // 由于FileList只具有可读权限，所以想要做删除修改的权限的话，需要copy一份，然后把copy的传过去
+                var file = this.files;
+                var str = "";
+                var length = file.length;
+                for (var i = 0; i < length; i++) {
+                    str += file[i].name + " ";
+                }
+                $(this).parent().siblings('.file-path').attr('title', str).children('p').html(str);
+                str = "";
+            });
+        },
+
+        /**
+         * 左侧菜单栏平移浮动
+         * @param {any} options 
+         */
+        sidebarMenu: function (options) {
+            var me = this;
+
+            var config = $.extend(me.sidebarConfig, options || {});
+
+            // aside
+            var $sidebarmenu = $('.sidebar-menu', me.$sidebar),
+                $sidebarLi = $('.treeview', $sidebarmenu),
+                $line = $('.sidebar-line', $sidebarmenu),
+                thisY;
+            // 正则表达式里，不匹配某一字符串可以用(?!a)表示
+
+            var pathname = window.location.pathname;
+
+            $sidebarLi.each(function (i, el) {
+                var treeurl = $(el).find('.treeview-menu li a').attr('href');
+                if (pathname.indexOf(treeurl) > -1) {
+                    $(el).addClass('active').children('.treeview-menu').addClass('menu-open');
+                    $line.css('top', $(el).position().top);
+                }
+            });
+
+            // 设置辅助线高度和宽度
+            $line.height(config.height);
+            var $active = $('.treeview.active', $sidebarmenu);
+
+            $sidebarLi.on('mouseenter', function () {
+                thisY = $(this).position().top;
+                $line.stop(true, true).animate({
+                    top: thisY
+                }, config.rebound_speed);
+                return false;
+            }).end().on('mouseleave', function () {
+                if ($active.length > 0) {
+                    thisY = $active.position().top;
+                } else {
+                    thisY = $(this).position().top;
+                }
+                $line.stop(true, true).animate({
+                    top: thisY
+                }, config.rebound_speed);
+            });
+        },
+
+        /**
+         * 顶部全局用户搜索初始化
+         */
+        navbarSearch: function () {
+            var me = this;
+
+            tools.select2Ajax('.navbar-search', Config.select2.selectUser, function (dom) {
+                $(dom).on('select2:select', function (obj) {
+                    var id = obj.params.data.Id;
+                    window.location.href = me.adminroot + '/user?id=' + id;
+                });
+            });
+        },
+
+        /**
+         * 记录滚动条位置
+         */
+        recordScrollBarPosition: function () {
+            var me = this;
+            // 记录滚动条位置 and 触发置顶
+            $(window).on('scroll', tools.throttle(function () {
+                sessionStorage.setItem('pagePosition', location);
+            }, 500, 1500));
+        },
+
+        /**
+         * 修改皮肤初始化
+         * @deprecated 
+         */
+        resetOptions: function () {
+            var me = this;
+
+            if (me.$body.hasClass('fixed')) {
+                $("[data-layout='fixed']").attr('checked', 'checked');
+            }
+            if (me.$body.hasClass('layout-boxed')) {
+                $("[data-layout='layout-boxed']").attr('checked', 'checked');
+            }
+            if (me.$body.hasClass('sidebar-collapse')) {
+                $("[data-layout='sidebar-collapse']").attr('checked', 'checked');
+            }
+        },
+
+        /**
+         * Modal 封装件初始化
+         * 
+         * @param {any} options 
+         */
+        adminModal: function (options) {
+            var me = this;
+            // 选取出所有页面上的初始dom
+            var data = $(document).find('[modal="true"]');
+
+            if (data && !!modal && (typeof options === 'object' || !options)) {
+                modal.init(options, data);
+            }
+        },
+    };
+
+    var Common = new Common();
+
+    window.tools = tools;
+    // 装饰者
+    tools.Common = Common;
+    return tools;
 });
