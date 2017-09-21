@@ -1,0 +1,31 @@
+{
+  "name": "resume",
+  "version": "1.0.0",
+  "description": "resume",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server -a 127.0.0.1 -p 7777"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhaihaoran/Z-components.git"
+  },
+  "keywords": [
+    "resume",
+    "and",
+    "simple",
+    "demo",
+    "for",
+    "study"
+  ],
+  "author": "kabulu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhaihaoran/Z-components/issues"
+  },
+  "homepage": "https://github.com/zhaihaoran/Z-components#readme",
+  "devDependencies": {
+    "http-server": "^0.10.0"
+  }
+}

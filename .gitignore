@@ -1,0 +1,6 @@
+#ignore 
+
+.vscode
+node_modules
+server.js
+.DS_Store
