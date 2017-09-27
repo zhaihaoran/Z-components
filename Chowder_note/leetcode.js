@@ -36,12 +36,12 @@ console.log(twoSum([2, 7, 11, 15], 9))
  * @return {ListNode}
  */
 // var addTwoNumbers = function (l1, l2) {
-    // var a1 = l1.trim().replace(/\(|\)/g, "").split(" -> ").map(function(el){
-    //     return +el;
-    // });
-    // var a2 = l2.trim().replace(/\(|\)/g, "").split(" -> ").map(function(el){
-    //     return +el;
-    // });;
+// var a1 = l1.trim().replace(/\(|\)/g, "").split(" -> ").map(function(el){
+//     return +el;
+// });
+// var a2 = l2.trim().replace(/\(|\)/g, "").split(" -> ").map(function(el){
+//     return +el;
+// });;
 
 //     var firstA = l1[l1.length - 1] + l1[l1.length - 2];
 //     var firstB = l2[l2.length - 1] + l2[l2.length - 2];
@@ -66,17 +66,34 @@ console.log(twoSum([2, 7, 11, 15], 9))
 
 // console.log(addTwoNumbers([2,4,3], [5,6,4]))
 
-var myAtoi = function(str) {
-    str = str.trim().replace(/![\-\+\d]+/,"");
-    if (str.length > 0 && /\d/.test(str) && !/\s/.test(str) && !/[\+\-]{2}/.test(str)) {
-        if( parseInt(str) < 0 ) {
-            return Math.max(parseInt(str,10),-2147483648);
-        } else {
-            return Math.min(parseInt(str,10),2147483647);
-        }
-    } else {
-        return 0;
-    }
+var myAtoi = function (str) {
+    return Math.max(Math.min(parseInt(str) || 0, 2147483647), -2147483648)
 };
 
 console.log(myAtoi("   010"))
+
+
+/**
+ * 9.22 Container With Most Water
+ * https://leetcode.com/articles/container-most-water/
+ */
+
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var maxArea = function (height) {
+    var maxArea = 0;
+    var length = height.length;
+    var head=0,tail = length - 1;
+    while (tail > head) {
+        var area = Math.min(height[head],height[tail]) * (tail - head);
+        maxArea = Math.max(area,maxArea);
+        if(height[head] > height[tail]) {
+            tail --;
+        } else {
+            head ++
+        }
+    }
+    return maxArea;
+};
